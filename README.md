@@ -684,6 +684,8 @@ This API supports paging. You can specify a starting index, and the number of it
     "activities": [
     {
         "date": string,
+        "occurred_date": string,
+        "stored_date": string,
         "ref": string,
         "external_ref": null | string,
         "score": null | number,
@@ -741,6 +743,8 @@ For activities that have Continuing Professional Development (CPD) configured, t
 }
 ```
 
+> **Deprecation notice** The `date` property will be deprecated in favour of the new `occurred_date` property. Currently they are both returned and contain the same value.
+
 ##### Return Codes
 | Code | Meaning |
 |:--|:--|
@@ -765,7 +769,7 @@ curl -X "POST" "https://$API_HOST/GetUserActivity" \
 ```
 
 #### Users Activity
-You can use the _GetUsersActivity_ API to retrieve any and all activity that has occurred for any user since the supplied input date/time. You can also optionally restrict the results to records in a particular state. This call happens in real-time.
+You can use the _GetUsersActivity_ API to retrieve any and all activity that has occurred for any user since the supplied input date/time. You can also optionally restrict the results to records in a particular state. The number of activities returned is limited to `500`, and if you wish get more activities you should make additional requests using the `next_date` property from the previous response. This call happens in real-time.
 
 ```
 {
@@ -793,6 +797,7 @@ You can use the _GetUsersActivity_ API to retrieve any and all activity that has
         "friendly_type": string,
         "username": string
     },
+    "next_date": string
     ...
 }
 ```
@@ -839,10 +844,12 @@ For activities that have Continuing Professional Development (CPD) configured, t
           "points": number,
           "learning_hours": number
         }
-    },
+    }
     ...
 }
 ```
+
+> **Deprecation notice** The `date` and `completed_date` properties will be deprecated in favour of the new `occurred_date` property. Currently the response contains all three properties and they contain the same value.
 
 ##### Return Codes
 | Code | Meaning |
